@@ -17,18 +17,18 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-function updateRequestMethod(req, res, next) {
-    if (req.body.method) {
-        req.method = req.body.method;
-        return next();
-    }
-    return next();
-}
+// function updateRequestMethod(req, res, next) {
+//     if (req.body.method) {
+//         req.method = req.body.method;
+//         return next();
+//     }
+//     return next();
+// }
 
-app.use(updateRequestMethod);
-app.use('/', async (req, res)=>{
-    return res.status(200).send({message: 'Success'})
-})
+// app.use(updateRequestMethod);
+// app.use('/', async (req, res)=>{
+//     return res.status(200).send({message: 'Success'})
+// })
 app.use('/user', userController)
 
 app.use('/clearcookie', authenticate, async(req,res)=> {
