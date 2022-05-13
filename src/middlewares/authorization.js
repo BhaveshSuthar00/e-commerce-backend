@@ -13,8 +13,6 @@ const verifyToken = (token) => {
 
 const authenticate = async(req, res, next) => {
     const cookieHeader = req.headers?.cookie;
-    // const cookieHeader = req.body
-    // console.log(cookieHeader, 'cokkie')
     if(!cookieHeader) return res.status(401).json({message: 'Missing cookie'});
 
     const token = cookieHeader.split('=')[1];

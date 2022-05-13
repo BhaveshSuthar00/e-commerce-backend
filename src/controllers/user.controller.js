@@ -10,20 +10,11 @@ require('dotenv').config();
 const newToken = (user)=>{
     return jwt.sign({ user }, process.env.JWT_SECRET)
 }
-const bcrypt = require('bcryptjs');
-const checkpass = (password, userData)=>{
-    return bcrypt.compareSync(password, userData)
-}
-router.post('/',authenticate, async(req, res) => {
-    try {
-        const UserData = await User.find().lean().exec();
-        return res.status(203).json(UserData);
-    }
-    catch (err) {
-        return res.status(500).json({message: err.message});
-    }
-})
-router.get('/getwith', authenticate , async(req, res)=>{
+// const bcrypt = require('bcryptjs');
+// const checkpass = (password, userData)=>{
+//     return bcrypt.compareSync(password, userData)
+// }
+router.get('/',authenticate, async(req, res) => {
     try {
         const UserData = await User.find().lean().exec();
         return res.status(203).json(UserData);
@@ -46,7 +37,7 @@ router.post('/post', async(req, res) => {
 })
 
 
-router.post('/login', async(req, res) => {
+router.get('/login', async(req, res) => {
     try {
         // const userId = req.user._id;
         console.log(req.body)
