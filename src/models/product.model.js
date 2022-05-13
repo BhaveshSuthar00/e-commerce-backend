@@ -10,7 +10,7 @@ const productSchema = new mongoose.Schema(
     image: [{ type: String, required: true }],
     stockQty: { type: Number, required: true, default: 10 },
     description: { type: String, required: false },
-    fabric : {type : String, required : True, default : "cotton"},
+    fabric : {type : String, required : true, default : "cotton"},
     brand : {type : String, required : true},
     color : [{type : String , required : true}]
   },
