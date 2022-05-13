@@ -18,7 +18,19 @@ const productController = require('./controllers/product.controller');
 const { authenticate } = require('./middlewares/authorization');
 
 // app.use(cors({credentials : true, origin: 'http://localhost:3000'}));
-app.use(cors({credentials: true, origin : "http://localhost:3000"}))
+app.set("trust proxy", 1);
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET || 'Super Secret (change it)',
+        resave: true,
+        saveUninitialized: false,
+        cookie: {
+            sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
+            secure: process.env.NODE_ENV === "production", // must be true if sameSite='none'
+        }
+    })
+);
+app.use(cors({credentials: true, origin : process.env.FONTENDURL}))
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
@@ -32,18 +44,6 @@ function updateRequestMethod(req, res, next) {
 }
 
 app.use(updateRequestMethod);
-app.set("trust proxy", 1);
-app.use(
-    session({
-        secret: process.env.SESSION_SECRET || 'Super Secret (change it)',
-        resave: true,
-        saveUninitialized: false,
-        cookie: {
-            sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
-            secure: process.env.NODE_ENV === "production", // must be true if sameSite='none'
-        }
-    })
-);
 // app.use('/', async (req, res)=>{
 //     return res.status(200).send({message: 'Success'})
 // })
