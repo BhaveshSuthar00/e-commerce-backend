@@ -39,12 +39,9 @@ router.post('/post', async(req, res) => {
 
 router.get('/login', async(req, res) => {
     try {
-        // const userId = req.user._id;
-        console.log(req.body)
         const UserData = await User.findOne({email : req.body.email});
         if(UserData){
             const match =  UserData.checkPassword(req.body.password);
-            // const match = checkpass(req.body.pp, UserData.password);
             if(match){
                 const token = newToken(UserData);
                 res.cookie('token', token, { httpOnly : true });
@@ -61,7 +58,6 @@ router.get('/login', async(req, res) => {
         } else {
             return res.status(404).json({message : 'User not found'});
         }
-        // return res.status(203).json(UserData);
     }
     catch (err) {
         return res.status(500).json({message: err.message, error : 'this is an error'});
