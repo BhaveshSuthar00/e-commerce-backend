@@ -12,7 +12,8 @@ const verifyToken = (token) => {
 }
 
 const authenticate = async(req, res, next) => {
-    const cookieHeader = req.headers?.cookie;
+    const cookieHeader = req.body?.cookie;
+    console.log(req.body)
     if(!cookieHeader) return res.status(401).json({message: 'Missing cookie'});
 
     const token = cookieHeader.split('=')[1];

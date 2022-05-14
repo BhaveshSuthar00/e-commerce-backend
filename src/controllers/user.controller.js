@@ -28,7 +28,7 @@ router.post('/post', async(req, res) => {
         const UserData = await User.create(req.body)
         const token = newToken(UserData);
         res.cookie('token', token, { httpOnly: true })
-        return res.status(203).json({token : token});
+        return res.status(203).json({token : token, firstName : UserData.first_name, lastName : UserData.last_name});
     }
     catch (err) {
         return res.status(500).json({message: err.message});
