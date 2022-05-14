@@ -8,7 +8,7 @@ router.post('/post', async(req, res)=>{
         return res.status(200).json(data);
     }
     catch (e) {
-        return res.status(404).json({message : e.message});
+        return res.status(404).json({message : e});
     }
 })
 router.get('/getAll', async(req, res) => {
