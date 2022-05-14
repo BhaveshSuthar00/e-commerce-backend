@@ -27,8 +27,8 @@ function updateRequestMethod(req, res, next) {
 }
 
 app.use(updateRequestMethod);
-app.use('/user', userController)
 app.use('/product', productController)
+app.use('/user', userController)
 app.use('/clearcookie', authenticate, async(req,res)=> {
     try {
         res.clearCookie('token')
