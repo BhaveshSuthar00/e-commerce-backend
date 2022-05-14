@@ -4,8 +4,8 @@ const router = express.Router();
 
 router.post('/post', async(req, res)=>{
     try {
-        await Product.create(req.body);
-        return res.status(200).json({message: 'Success added the product'});
+        const data = await Product.create(req.body);
+        return res.status(200).json(data);
     }
     catch (e) {
         return res.status(404).json({message : e.message});
