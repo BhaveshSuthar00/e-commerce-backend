@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.post("/post", async (req, res) => {
     try {
+        console.log(req.body);
         const Products = await Product.create({
             productName: req.body.productName,
             price: req.body.price,
@@ -15,8 +16,7 @@ router.post("/post", async (req, res) => {
             description: req.body.description,
             fabric: req.body.fabric,
             brand: req.body.brand,
-            color: req.body.color,
-            id: req.body.id,
+            color: req.body.color
         });
         return res.status(200).json({ message: "Product successfully created", product: Products });
     } catch (e) {
@@ -56,10 +56,11 @@ router.get("/getAll", async (req, res) => {
         const page = req.query.page || 1;
         const size = req.query.size || 8;
         let totalPages = Math.ceil((await Product.find().countDocuments()) / size);
-        let dataForD = await Product.find({ category: req.query.category }).lean().exec();
-        let category = filterCat("category", dataForD);
-        let brand = filterCat("brand", dataForD);
-        let discount = filterCat("discount", dataForD);
+        let dataForD = await Product.find().lean().exec();
+        // let category = filterCat("category", dataForD);
+        // let brand = filterCat("brand", dataForD);
+        // let discount = filterCat("discount", dataForD);
+        // return res.status(200).send({ category, brand, discount });
         let Products;
         let sort = req.query.order === "asc" ? 1 : -1;
         if (req.query.order) {
@@ -73,7 +74,7 @@ router.get("/getAll", async (req, res) => {
                         .sort({ price: sort })
                         .lean()
                         .exec();
-                    return res.status(200).json({ product: Products, totalPages: totalPages, category, discount, brand });
+                    return res.status(200).json({ product: Products, totalPages: totalPages });
                 } else {
                     let obj = { $and: [{ category: req.query.category }, { brand: req.query.brand }] };
                     totalPages = Math.ceil((await Product.find(obj).countDocuments()) / size);
@@ -83,7 +84,7 @@ router.get("/getAll", async (req, res) => {
                         .sort({ price: sort })
                         .lean()
                         .exec();
-                    return res.status(200).json({ product: Products, totalPages: totalPages, category, discount, brand });
+                    return res.status(200).json({ product: Products, totalPages: totalPages });
                 }
             } else if (req.query.category) {
                 if (req.query.discount) {
@@ -95,7 +96,7 @@ router.get("/getAll", async (req, res) => {
                         .sort({ price: sort })
                         .lean()
                         .exec();
-                    return res.status(200).json({ product: Products, totalPages: totalPages, category, discount, brand });
+                    return res.status(200).json({ product: Products, totalPages: totalPages });
                 } else {
                     let obj = { category: req.query.category };
                     totalPages = Math.ceil((await Product.find(obj).countDocuments()) / size);
@@ -105,7 +106,7 @@ router.get("/getAll", async (req, res) => {
                         .sort({ price: sort })
                         .lean()
                         .exec();
-                    return res.status(200).json({ product: Products, totalPages: totalPages, category, discount, brand });
+                    return res.status(200).json({ product: Products, totalPages: totalPages });
                 }
             }
         } else {
@@ -123,7 +124,7 @@ router.get("/getAll", async (req, res) => {
                         .limit(size)
                         .lean()
                         .exec();
-                    return res.status(200).json({ product: Products, totalPages: totalPages, category, discount, brand });
+                    return res.status(200).json({ product: Products, totalPages: totalPages });
                 } else {
                     totalPages = Math.ceil(
                         (await Product.find({ $and: [{ brand: req.query.brand }, { category: req.query.category }] }).countDocuments()) / size
@@ -133,7 +134,7 @@ router.get("/getAll", async (req, res) => {
                         .limit(size)
                         .lean()
                         .exec();
-                    return res.status(200).json({ product: Products, totalPages: totalPages, category, discount, brand });
+                    return res.status(200).json({ product: Products, totalPages: totalPages });
                 }
             } else if (req.query.category) {
                 if (req.query.discount) {
@@ -146,7 +147,7 @@ router.get("/getAll", async (req, res) => {
                         .limit(size)
                         .lean()
                         .exec();
-                    return res.status(200).json({ product: Products, totalPages: totalPages, category, discount, brand });
+                    return res.status(200).json({ product: Products, totalPages: totalPages });
                 } else {
                     totalPages = Math.ceil((await Product.find({ category: req.query.category }).countDocuments()) / size);
                     Products = await Product.find({ category: req.query.category })
@@ -154,7 +155,7 @@ router.get("/getAll", async (req, res) => {
                         .limit(size)
                         .lean()
                         .exec();
-                    return res.status(200).json({ product: Products, totalPages: totalPages, category, discount, brand });
+                    return res.status(200).json({ product: Products, totalPages: totalPages });
                 }
             }
         }
@@ -163,7 +164,7 @@ router.get("/getAll", async (req, res) => {
             .limit(size)
             .lean()
             .exec();
-        return res.status(200).json({ product: Products, totalPages: totalPages, category, discount, brand });
+        return res.status(200).json({ product: Products, totalPages: totalPages });
     } catch (e) {
         console.log(e);
         return res.status(404).json({ message: "Error getting all products" });
