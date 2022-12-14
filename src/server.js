@@ -13,8 +13,6 @@ const userController = require('./controllers/user.controller');
 
 const productController = require('./controllers/product.controller');
 
-const { authenticate } = require('./middlewares/authorization');
-
 app.use(cors());
 app.use(express.json());
 
@@ -29,15 +27,6 @@ function updateRequestMethod(req, res, next) {
 app.use(updateRequestMethod);
 app.use('/product', productController)
 app.use('/user', userController)
-app.use('/clearcookie', authenticate, async(req,res)=> {
-    try {
-        res.clearCookie('token')
-        res.status(200).json({ message: "sign out success" });
-    }
-    catch (err) {
-        return res.status(500).send({ message: "sign out error" });
-    }
-})
 
 app.listen(port, async ()=>{
     try {

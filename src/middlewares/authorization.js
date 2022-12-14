@@ -12,11 +12,10 @@ const verifyToken = (token) => {
 }
 
 const authenticate = async(req, res, next) => {
-    const cookieHeader = req.body?.cookie;
-    console.log(req.body)
+    const cookieHeader = req.headers?.authorization;
     if(!cookieHeader) return res.status(401).json({message: 'Missing cookie'});
 
-    const token = cookieHeader.split('=')[1];
+    const token = cookieHeader.split(' ')[1];
 
     let user;
 
