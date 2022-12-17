@@ -12,7 +12,7 @@ const verifyToken = (token) => {
 }
 
 const authenticate = async(req, res, next) => {
-    const cookieHeader = req.headers?.authorization;
+    const cookieHeader = req.headers.authorization;
     if(!cookieHeader) return res.status(401).json({message: 'Missing cookie'});
 
     const token = cookieHeader.split(' ')[1];
@@ -30,4 +30,4 @@ const authenticate = async(req, res, next) => {
     return next();
 }
 
-module.exports = {authenticate, verifyToken};
+module.exports = { authenticate, verifyToken };

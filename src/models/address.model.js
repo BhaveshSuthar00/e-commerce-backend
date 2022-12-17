@@ -10,7 +10,7 @@ const addressSchema = new mongoose.Schema({
     pincode : {type : Number, required : true},
     country : {type : String , required : true},
     phone_number : {type : Number, required : true},
-    user_id : {type : mongoose.Schema.Types.ObjectId, ref : 'user', required : true},
+    userId : {type : mongoose.Schema.Types.ObjectId, ref : 'user', required : true},
 },{
     timestamps : true,
 })

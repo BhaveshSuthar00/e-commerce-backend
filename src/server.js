@@ -13,6 +13,8 @@ const userController = require('./controllers/user.controller');
 
 const productController = require('./controllers/product.controller');
 
+const cartController = require("./controllers/cart.controller");
+const { authenticate } = require('./middlewares/authorization');
 app.use(cors());
 app.use(express.json());
 
@@ -27,7 +29,7 @@ function updateRequestMethod(req, res, next) {
 app.use(updateRequestMethod);
 app.use('/product', productController)
 app.use('/user', userController)
-
+app.use('/cart',authenticate, cartController)
 app.listen(port, async ()=>{
     try {
         await connect();
