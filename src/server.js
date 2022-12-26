@@ -15,6 +15,16 @@ const productController = require('./controllers/product.controller');
 
 const cartController = require("./controllers/cart.controller");
 const { authenticate } = require('./middlewares/authorization');
+var corsOptions = {
+    origin: [
+        "http://localhost:3000",
+        "http://127.0.0.1",
+        "http://104.142.122.231",
+    ],
+    credentials: true,
+    exposedHeaders: ["set-cookie"],
+}
+
 app.use(cors());
 app.use(express.json());
 
@@ -27,9 +37,16 @@ function updateRequestMethod(req, res, next) {
 }
 
 app.use(updateRequestMethod);
+// app.use('/product', cors(corsOptions), productController)
+// app.use('/user', cors(corsOptions), userController)
+// app.use('/cart', cors(corsOptions), authenticate, cartController)
+
+
 app.use('/product', productController)
 app.use('/user', userController)
-app.use('/cart',authenticate, cartController)
+app.use('/cart', authenticate, cartController)
+
+
 app.listen(port, async ()=>{
     try {
         await connect();

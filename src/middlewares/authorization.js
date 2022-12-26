@@ -15,8 +15,7 @@ const authenticate = async(req, res, next) => {
     const cookieHeader = req.headers.authorization;
     if(!cookieHeader) return res.status(401).json({message: 'Missing cookie'});
 
-    const token = cookieHeader.split(' ')[1];
-
+    let token = cookieHeader.split(' ')[1];
     let user;
 
     try {

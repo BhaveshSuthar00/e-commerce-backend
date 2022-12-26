@@ -38,4 +38,14 @@ router.get("", async (req, res) => {
     }
 })
 
+router.patch('/:id', async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const product = await Cart.updateOne({userId : req.user._id}, {$pull : {productId : productId}}, { new : true}).lean().exec();
+        return res.status(200).json(product)
+    }
+    catch (err) {
+        return res.status(500).json(err);
+    }
+})
 module.exports = router;
